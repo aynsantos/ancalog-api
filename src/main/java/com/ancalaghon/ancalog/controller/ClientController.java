@@ -3,6 +3,8 @@ package com.ancalaghon.ancalog.controller;
 
 import com.ancalaghon.ancalog.model.Client;
 import com.ancalaghon.ancalog.repository.ClientRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +17,21 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("/client")
+@Api(tags = "Client Controller")
 public class ClientController {
 
     private ClientRepository clientRepository;
 
 
     @GetMapping
+    @ApiOperation("Find All Clients")
     public List<Client> clientList() {
         return clientRepository.findAll();
 
     }
 
     @GetMapping("/{clientId}")
+    @ApiOperation("Find Client By Id")
     public ResponseEntity<Client> findById (@PathVariable Long clientId){
          return clientRepository.findById(clientId)
                  .map(client -> ResponseEntity.ok(client))
@@ -34,6 +39,7 @@ public class ClientController {
     }
 
     @PostMapping
+    @ApiOperation("Create Client")
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@RequestBody Client client) {
         return clientRepository.save(client);
@@ -41,6 +47,7 @@ public class ClientController {
     }
 
     @PutMapping("/{clientId}")
+    @ApiOperation("Update Client")
     public ResponseEntity<Client> update(@PathVariable Long clientId, @RequestBody Client client) {
         if (!clientRepository.existsById(clientId)) {
             return ResponseEntity.notFound().build();
@@ -53,6 +60,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{clientId}")
+    @ApiOperation("Delete Client")
     public ResponseEntity<Void> delete (@PathVariable Long clientId) {
         if (!clientRepository.existsById(clientId)) {
             return ResponseEntity.notFound().build();
