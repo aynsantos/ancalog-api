@@ -3,6 +3,7 @@ package com.ancalaghon.ancalog.controller;
 
 import com.ancalaghon.ancalog.model.Client;
 import com.ancalaghon.ancalog.repository.ClientRepository;
+import com.ancalaghon.ancalog.service.ClientService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 public class ClientController {
 
     private ClientRepository clientRepository;
+    private ClientService clientService;
 
 
     @GetMapping
@@ -43,7 +45,7 @@ public class ClientController {
     @ApiOperation("Create Client")
     @ResponseStatus(HttpStatus.CREATED)
     public Client createClient(@Valid @RequestBody Client client) {
-        return clientRepository.save(client);
+        return clientService.save(client);
 
     }
 
@@ -55,7 +57,7 @@ public class ClientController {
         }
 
         client.setId(clientId);
-        client = clientRepository.save(client);
+        client = clientService.save(client);
 
         return ResponseEntity.ok(client);
     }
@@ -67,7 +69,7 @@ public class ClientController {
             return ResponseEntity.notFound().build();
         }
 
-        clientRepository.deleteById(clientId);
+        clientService.delete(clientId);
 
         return ResponseEntity.noContent().build();
     }

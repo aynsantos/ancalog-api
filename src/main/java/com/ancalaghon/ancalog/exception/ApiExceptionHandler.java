@@ -7,6 +7,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -39,6 +40,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
 
         return handleExceptionInternal(ex,error, headers, status, request);
+
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<Object> handleBusiness (BusinessException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setTimeStamp(LocalDateTime.now());
+        error.setTitle(ex.getMessage());
+
+
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
 
     }
 }
