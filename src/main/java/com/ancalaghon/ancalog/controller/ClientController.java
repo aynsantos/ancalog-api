@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -41,14 +42,14 @@ public class ClientController {
     @PostMapping
     @ApiOperation("Create Client")
     @ResponseStatus(HttpStatus.CREATED)
-    public Client createClient(@RequestBody Client client) {
+    public Client createClient(@Valid @RequestBody Client client) {
         return clientRepository.save(client);
 
     }
 
     @PutMapping("/{clientId}")
     @ApiOperation("Update Client")
-    public ResponseEntity<Client> update(@PathVariable Long clientId, @RequestBody Client client) {
+    public ResponseEntity<Client> update(@PathVariable Long clientId, @Valid @RequestBody Client client) {
         if (!clientRepository.existsById(clientId)) {
             return ResponseEntity.notFound().build();
         }
@@ -70,9 +71,6 @@ public class ClientController {
 
         return ResponseEntity.noContent().build();
     }
-
-
-
 
 
 
