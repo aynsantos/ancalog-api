@@ -6,6 +6,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,10 +23,14 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Valid
+    @ConvertGroup(from = Default.class, to = ValidationGroups.ClientId.class)
+    @NotNull
     @ManyToOne
     private Client client;
     @Embedded
     private Recipient recipient;
+    @NotNull
     private BigDecimal fee;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
