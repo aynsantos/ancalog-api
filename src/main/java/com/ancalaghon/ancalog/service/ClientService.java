@@ -14,6 +14,11 @@ public class ClientService {
 
     private ClientRepository clientRepository;
 
+    public Client findCustomer (Long clientID) {
+        return clientRepository.findById(clientID)
+                .orElseThrow(() -> new BusinessException("Cliente não encotrado"));
+    }
+
     @Transactional
     public Client save(Client client) {
         boolean emailInUse = clientRepository.findByEmail(client.getEmail())

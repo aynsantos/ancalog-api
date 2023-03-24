@@ -1,5 +1,6 @@
 package com.ancalaghon.ancalog.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +24,11 @@ public class Delivery {
     @Embedded
     private Recipient recipient;
     private BigDecimal fee;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime orderTimeStamp;
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime orderFinished;
 }
