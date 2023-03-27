@@ -28,6 +28,8 @@ public class Delivery {
     @NotNull
     @ManyToOne
     private Client client;
+    @Valid
+    @NotNull
     @Embedded
     private Recipient recipient;
     @NotNull
