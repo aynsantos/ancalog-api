@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.groups.ConvertGroup;
 import javax.validation.groups.Default;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 
 @Getter
 @Setter
@@ -38,7 +39,7 @@ public class Delivery {
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime orderTimeStamp;
+    private OffsetDateTime orderTimeStamp;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private LocalDateTime orderFinished;
+    private OffsetDateTime orderFinished;
 }
