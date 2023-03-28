@@ -1,5 +1,7 @@
 package com.ancalaghon.ancalog.controller;
 
+import com.ancalaghon.ancalog.dto.DeliveryDTO;
+import com.ancalaghon.ancalog.dto.RecipientDTO;
 import com.ancalaghon.ancalog.model.Client;
 import com.ancalaghon.ancalog.model.Delivery;
 import com.ancalaghon.ancalog.repository.DeliveryRepository;
@@ -36,12 +38,25 @@ public class DeliveryController {
     }
 
     @GetMapping("/{deliveryId}")
-    public ResponseEntity<Delivery> findById (@PathVariable Long deliveryId){
+    public ResponseEntity<DeliveryDTO> findById (@PathVariable Long deliveryId){
         return deliveryRepository.findById(deliveryId)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(delivery -> {
+                    DeliveryDTO deliveryDTO = new DeliveryDTO();
+                    deliveryDTO.setId(delivery.getId());
+                    deliveryDTO.setClientName(delivery.getClient().getName());
+                    deliveryDTO.setRecipient(new RecipientDTO());
+                    deliveryDTO.getRecipient().setName(delivery.getRecipient().getName());
+                    deliveryDTO.getRecipient().setAddress(delivery.getRecipient().getAddress());
+                    deliveryDTO.getRecipient().setNumber(delivery.getRecipient().getNumber());
+                    deliveryDTO.getRecipient().setComplement(delivery.getRecipient().getComplement());
+                    deliveryDTO.getRecipient().setDistrict(delivery.getRecipient().getDistrict());
+                    deliveryDTO.setFee(delivery.getFee());
+                    deliveryDTO.setStatus(delivery.getStatus());
+                    deliveryDTO.setOrderTimeStamp(delivery.getOrderTimeStamp());
+                    deliveryDTO.setOrderFinished(delivery.getOrderFinished());
+
+                    return ResponseEntity.ok(deliveryDTO);
+                }).orElse(ResponseEntity.notFound().build());
     }
-
-
 
 }
