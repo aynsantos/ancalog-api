@@ -21,7 +21,7 @@ import javax.validation.groups.Default;
 @NoArgsConstructor
 public class Client {
 
-    @NotNull(groups = ValidationGroups.ClientId.class)
+
     @Id
     @EqualsAndHashCode.Include
     @GeneratedValue(strategy = GenerationType.IDENTITY)
