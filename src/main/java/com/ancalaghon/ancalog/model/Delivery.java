@@ -1,17 +1,15 @@
 package com.ancalaghon.ancalog.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.ConvertGroup;
-import javax.validation.groups.Default;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -29,8 +27,21 @@ public class Delivery {
     @Embedded
     private Recipient recipient;
     private BigDecimal fee;
+    @OneToMany (mappedBy = "delivery")
+    private List<Occurrence> occurrences = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;
     private OffsetDateTime orderTimeStamp;
     private OffsetDateTime orderFinished;
+
+    public Occurrence addOccurrence(String description) {
+        Occurrence occurrence = new Occurrence();
+        occurrence.setDescription(description);
+        occurrence.setTimeStamp(OffsetDateTime.now());
+        occurrence.setDelivery(this);
+
+        this.getOccurrences().add(occurrence);
+
+        return occurrence;
+    }
 }
