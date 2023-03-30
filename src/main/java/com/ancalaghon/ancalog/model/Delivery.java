@@ -27,7 +27,7 @@ public class Delivery {
     @Embedded
     private Recipient recipient;
     private BigDecimal fee;
-    @OneToMany (mappedBy = "delivery")
+    @OneToMany (mappedBy = "delivery", cascade = CascadeType.ALL)
     private List<Occurrence> occurrences = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private DeliveryStatus status;

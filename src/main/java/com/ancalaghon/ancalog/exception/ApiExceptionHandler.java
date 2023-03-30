@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +46,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<Object> handleBusiness (BusinessException ex, WebRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        Error error = new Error();
+        error.setStatus(status.value());
+        error.setTimeStamp(OffsetDateTime.now());
+        error.setTitle(ex.getMessage());
+
+
+
+        return handleExceptionInternal(ex, error, new HttpHeaders(), status, request);
+
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<Object> handleEntityNotFoundException(BusinessException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
 
         Error error = new Error();
         error.setStatus(status.value());

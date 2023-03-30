@@ -2,6 +2,7 @@ package com.ancalaghon.ancalog.service;
 
 
 import com.ancalaghon.ancalog.exception.BusinessException;
+import com.ancalaghon.ancalog.exception.EntityNotFoundException;
 import com.ancalaghon.ancalog.model.Delivery;
 import com.ancalaghon.ancalog.model.Occurrence;
 import com.ancalaghon.ancalog.repository.DeliveryRepository;
@@ -18,7 +19,7 @@ public class RecordOccurrenceService {
     @Transactional
     public Occurrence record(Long deliveryId, String description) {
         Delivery delivery = deliveryRepository.findById(deliveryId)
-                .orElseThrow(() -> new BusinessException("Entrega não encontrada"));
+                .orElseThrow(() -> new EntityNotFoundException("Entrega não encontrada"));
 
         return delivery.addOccurrence(description);
     }
