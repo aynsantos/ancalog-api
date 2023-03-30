@@ -14,12 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RecordOccurrenceService {
 
-    private DeliveryRepository deliveryRepository;
+    private SearchDeliveryService searchDeliveryService;
 
     @Transactional
     public Occurrence record(Long deliveryId, String description) {
-        Delivery delivery = deliveryRepository.findById(deliveryId)
-                .orElseThrow(() -> new EntityNotFoundException("Entrega não encontrada"));
+        Delivery delivery = searchDeliveryService.search(deliveryId);
 
         return delivery.addOccurrence(description);
     }
