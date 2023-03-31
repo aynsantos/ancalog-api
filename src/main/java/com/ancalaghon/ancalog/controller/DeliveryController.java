@@ -5,6 +5,7 @@ import com.ancalaghon.ancalog.dto.input.DeliveryInputDTO;
 import com.ancalaghon.ancalog.mapper.DeliveryMapper;
 import com.ancalaghon.ancalog.model.Delivery;
 import com.ancalaghon.ancalog.repository.DeliveryRepository;
+import com.ancalaghon.ancalog.service.FinalizeDeliveryService;
 import com.ancalaghon.ancalog.service.OrderService;
 import io.swagger.annotations.Api;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class DeliveryController {
     private DeliveryRepository deliveryRepository;
     private DeliveryMapper deliveryMapper;
     private OrderService orderService;
+    private FinalizeDeliveryService finalizeDeliveryService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -47,5 +49,14 @@ public class DeliveryController {
                 .map(delivery -> ResponseEntity.ok(deliveryMapper.toDeliveryDTO(delivery)))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/delivery/{deliveryId}/finalization")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void finalizeDelivery(@PathVariable Long deliveryId) {
+        finalizeDeliveryService.finalizeDelivery(deliveryId);
+
+    }
+
+
 
 }
