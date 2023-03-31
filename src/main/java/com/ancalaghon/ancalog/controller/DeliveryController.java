@@ -50,7 +50,7 @@ public class DeliveryController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/delivery/{deliveryId}/finalization")
+    @PutMapping("/{deliveryId}/finalization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void finalizeDelivery(@PathVariable Long deliveryId) {
         finalizeDeliveryService.finalizeDelivery(deliveryId);
