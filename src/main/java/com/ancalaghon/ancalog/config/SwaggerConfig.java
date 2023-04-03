@@ -2,7 +2,6 @@ package com.ancalaghon.ancalog.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-import springfox.documentation.RequestHandler;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
