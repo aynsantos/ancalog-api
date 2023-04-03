@@ -8,6 +8,7 @@ import com.ancalaghon.ancalog.model.Occurrence;
 import com.ancalaghon.ancalog.service.RecordOccurrenceService;
 import com.ancalaghon.ancalog.service.SearchDeliveryService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class OccurrenceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Register Ocurrences By Delivery Id")
     public OccurrenceDTO register (@PathVariable Long deliveryId,
                                    @Valid @RequestBody OccurrenceInputDTO occurrenceInputDTO) {
        Occurrence occurrenceRecord = recordOccurrenceService.record(deliveryId, occurrenceInputDTO.getDescription());
@@ -36,6 +38,7 @@ public class OccurrenceController {
     }
 
     @GetMapping
+    @ApiOperation("Ocurrences By Delivery Id")
     public List<OccurrenceDTO> list(@PathVariable Long deliveryId) {
         Delivery delivery = searchDeliveryService.search(deliveryId);
 

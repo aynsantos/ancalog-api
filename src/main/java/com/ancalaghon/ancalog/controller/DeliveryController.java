@@ -8,6 +8,7 @@ import com.ancalaghon.ancalog.repository.DeliveryRepository;
 import com.ancalaghon.ancalog.service.FinalizeDeliveryService;
 import com.ancalaghon.ancalog.service.OrderService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class DeliveryController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation("Delivery Request")
     public DeliveryDTO request (@Valid @RequestBody DeliveryInputDTO deliveryInputDTO) {
         Delivery newDelivery = deliveryMapper.toEntity(deliveryInputDTO);
         Delivery deliveryRequest = orderService.requestDelivery(newDelivery);
@@ -38,12 +40,14 @@ public class DeliveryController {
     }
 
     @GetMapping
+    @ApiOperation("Find All Deliveries")
     public List<DeliveryDTO> deliveryList() {
         return deliveryMapper.deliveryDTOList(deliveryRepository.findAll());
 
     }
 
     @GetMapping("/{deliveryId}")
+    @ApiOperation("Find Delivery By Id")
     public ResponseEntity<DeliveryDTO> findById (@PathVariable Long deliveryId){
         return deliveryRepository.findById(deliveryId)
                 .map(delivery -> ResponseEntity.ok(deliveryMapper.toDeliveryDTO(delivery)))
@@ -51,6 +55,7 @@ public class DeliveryController {
     }
 
     @PutMapping("/{deliveryId}/finalization")
+    @ApiOperation("Delivery finalization")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void finalizeDelivery(@PathVariable Long deliveryId) {
         finalizeDeliveryService.finalizeDelivery(deliveryId);
